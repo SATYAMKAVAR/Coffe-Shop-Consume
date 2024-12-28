@@ -1,0 +1,84 @@
+﻿@using System.Data;
+@model IEnumerable<CountryModel>;
+@using Coffee_Shop_Management_System.Helper
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+<div class="pagetitle">
+    <h1>Country</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="Home" asp-action="index">
+                    <i class="fa fa-home"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Country List</li>
+        </ol>
+    </nav>
+    <div class="d-flex justify-content-end align-items-center">
+        <a class="btn btn-outline-primary" asp-controller="Country" asp-action="AddEditCountry">
+            <i class="bi bi-plus-lg"></i>&nbsp;Add Country
+        </a>
+    </div>
+</div><!-- End Page Title -->
+@if (TempData["CountryInsertMsg"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["CountryInsertMsg"]
+    </div>
+}
+
+<div class="mb-3">
+    <input type="text" class="form-control" id="CountrySearch" placeholder="Search Any">
+</div>
+
+<table class="table table-hover table-header-fixed">
+    <thead>
+        <tr>
+            <th scope="col">Country Name</th>
+            <th scope="col">Country Code</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="CountryTable">
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.CountryName</td>
+                <td>@c.CountryCode</td>
+                <td class="text-center">
+                    <a class="btn btn-outline-success btn-xs" asp-controller="Country" asp-action="AddEditCountry" asp-route-CountryID="@UrlEncryptor.Encrypt(c.CountryID.ToString())">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <a class="btn btn-outline-danger btn-xs" asp-controller="Country" asp-action="DeleteCountry" asp-route-CountryID="@UrlEncryptor.Encrypt(c.CountryID.ToString())" onclick="return confirm('Are you sure you want to delete this Country?');">
+                        <i class="bi bi-x"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#CountrySearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#CountryTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}

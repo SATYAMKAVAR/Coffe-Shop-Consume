@@ -1,0 +1,75 @@
+﻿@model Coffee_Shop_Management_System.Models.OrderModel
+<div class="pagetitle">
+    <h1>@(Model.OrderID > 0 ? "Edit " : "Add ")Order</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item active">Order</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <form class="row g-3 pt-3" asp-action="SaveOrder">
+                        @Html.HiddenFor(x => x.OrderID)
+                        <div asp-validation-summary="ModelOnly"></div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Order Number <span class="text-danger">*</span></label>
+                            <input type="Number" class="form-control" id="inputNanme4" asp-for="OrderNumber">
+                            <span asp-validation-for="OrderNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Order Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="inputNanme4" asp-for="OrderDate">
+                            <span asp-validation-for="OrderDate" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Payment Mode</label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="PaymentMode">
+                            <span asp-validation-for="PaymentMode" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Total Amount</label>
+                            <input type="number" class="form-control" id="inputNanme4" asp-for="TotalAmount">
+                            <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Shipping Address <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="inputNanme4" asp-for="ShippingAddress"></textarea>
+                            <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Customer Name <span class="text-danger">*</span></label>
+                            <select id="inputState" class="form-select" asp-for="CustomerID" aria-label="Default select example" asp-items="@ViewBag.CustomerList">
+                                <option value="" disabled selected>Select an option</option>
+                            </select>
+                            <span asp-validation-for="CustomerID" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">User Name <span class="text-danger">*</span></label>
+                            <select id="inputState" class="form-select" asp-for="UserID" aria-label="Default select example" asp-items="@ViewBag.UserList">
+                                <option value="" disabled selected>Select an option</option>
+                            </select>
+                            <span asp-validation-for="UserID" class="text-danger"></span>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

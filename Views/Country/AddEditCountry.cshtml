@@ -1,0 +1,47 @@
+﻿@model Coffee_Shop_Management_System.Models.CountryModel
+<div class="pagetitle">
+    <h1>@(Model.CountryID > 0 ? "Edit " : "Add ")Country</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item active">Country</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <form class="row g-3 pt-3" asp-action="SaveCountry">
+                        @Html.HiddenFor(x => x.CountryID)
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Country Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="CountryName">
+                            <span asp-validation-for="CountryName" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Country Code</label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="CountryCode">
+                            <span asp-validation-for="CountryCode" class="text-danger"></span>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

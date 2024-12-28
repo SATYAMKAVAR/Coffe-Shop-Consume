@@ -1,0 +1,88 @@
+﻿@using System.Data
+@model IEnumerable<StateModel>
+@using Coffee_Shop_Management_System.Helper
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+<div class="pagetitle">
+    <h1>State</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="Home" asp-action="index">
+                    <i class="fa fa-home"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">State List</li>
+        </ol>
+    </nav>
+    <div class="d-flex justify-content-end align-items-center">
+        <a class="btn btn-outline-primary" asp-controller="State" asp-action="AddEditState">
+            <i class="bi bi-plus-lg"></i>&nbsp;Add State
+        </a>
+    </div>
+</div><!-- End Page Title -->
+@if (TempData["StateInsertMsg"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["StateInsertMsg"]
+    </div>
+}
+
+<div class="mb-3">
+    <input type="text" class="form-control" id="StateSearch" placeholder="Search Any">
+</div>
+
+<table class="table table-hover table-header-fixed">
+    <thead>
+        <tr>
+            <th scope="col">State Name</th>
+            <th scope="col">State Code</th>
+            <th scope="col">Country Name</th>
+            <th scope="col">City Count</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="StateTable">
+        @foreach (var row in Model)
+        {
+            <tr>
+                <td>@row.StateName</td>
+                <td>@row.StateCode</td>
+                <td>@row.CountryName</td>
+                <td><a asp-action="CityList" asp-controller="City" asp-route-StateID=@row.StateID>@row.CityCount</a></td>
+                <td class="text-center">
+                    <a class="btn btn-outline-success btn-xs" asp-controller="State" asp-action="AddEditState" asp-route-StateID="@UrlEncryptor.Encrypt(row.StateID.ToString())">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <a class="btn btn-outline-danger btn-xs" asp-controller="State" asp-action="DeleteState" asp-route-StateID="@UrlEncryptor.Encrypt(row.StateID.ToString())" onclick="return confirm('Are you sure you want to delete this State?');">
+                        <i class="bi bi-x"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#StateSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#StateTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}

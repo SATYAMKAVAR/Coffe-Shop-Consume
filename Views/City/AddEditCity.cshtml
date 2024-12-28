@@ -1,0 +1,107 @@
+﻿@model Coffee_Shop_Management_System.Models.CityModel
+<div class="pagetitle">
+    <h1>@(Model.CityID > 0 ? "Edit " : "Add ")City</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item active">City</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <form class="row g-3 pt-3" asp-action="SaveCity">
+                        @Html.HiddenFor(x => x.CityID)
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">City Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="CityName">
+                            <span asp-validation-for="CityName" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">City Code</label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="CityCode">
+                            <span asp-validation-for="CityCode" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="CountryID" class="form-label">Country Name <span class="text-danger">*</span></label>
+                            <select id="CountryID" class="form-select" asp-for="CountryID" asp-items="@(ViewBag.CountryList as SelectList)">
+                                <option value="">Select Country</option>
+                            </select>
+                            <span asp-validation-for="CountryID" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="StateID" class="form-label">State Name <span class="text-danger">*</span></label>
+                            <select id="StateID" class="form-select" asp-for="StateID" asp-items="@(ViewBag.StateList as SelectList)">
+                                <option value="">Select State</option>
+                            </select>
+                            <span asp-validation-for="StateID" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div> 
+</section>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            const countryID = $('#CountryID').val();
+
+            if (countryID) {
+                // Trigger change event to populate the State dropdown
+                $('#CountryID').trigger('change');
+            }
+        });
+        $('#CountryID').change(function () {
+            const countryID = $(this).val();
+            const $stateDropdown = $('#StateID');
+
+            // Clear the State dropdown
+            $stateDropdown.empty().append('<option value="">Select State</option>');
+
+            if (countryID) {
+                // Make AJAX call to fetch states based on selected country
+                $.ajax({
+                    url: '@Url.Action("GetStatesByCountry", "City")',
+                    type: 'POST',
+                    data: { CountryID: countryID },
+                    success: function (response) {
+                        if (response && response.length > 0) {
+                            $.each(response, function (index, state) {
+                                const option = $(`<option value="${state.stateID}">${state.stateName}</option>`);
+                                $stateDropdown.append(option);
+                            });
+
+                            // Preselect the state if available
+                            const selectedStateID = '@Model.StateID';
+                            if (selectedStateID) {
+                                $stateDropdown.val(selectedStateID);
+                            }
+                        } else {
+                            $stateDropdown.append('<option value="">No states available</option>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error loading states:', error);
+                        alert('An error occurred while loading states.');
+                    }
+                });
+            }
+        });
+    </script>
+}

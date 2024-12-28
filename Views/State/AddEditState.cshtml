@@ -1,0 +1,55 @@
+﻿@model Coffee_Shop_Management_System.Models.StateModel
+<div class="pagetitle">
+    <h1>@(Model.StateID > 0 ? "Edit " : "Add ")State</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item active">State</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <form class="row g-3 pt-3" asp-action="SaveState">
+                        @Html.HiddenFor(x => x.StateID)
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">State Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="StateName">
+                            <span asp-validation-for="StateName" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">State Code</label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="StateCode">
+                            <span asp-validation-for="StateCode" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Country Name <span class="text-danger">*</span></label>
+                            <select id="inputState" class="form-select" asp-for="CountryID" aria-label="Default select example" asp-items="@ViewBag.CountryList">
+                                <option value="" disabled selected>Select an option</option>
+                            </select>
+                            <span asp-validation-for="CountryID " class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

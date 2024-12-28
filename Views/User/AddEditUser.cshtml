@@ -1,0 +1,68 @@
+﻿@model Coffee_Shop_Management_System.Models.UserModel
+
+<div class="pagetitle">
+    <h1>@(Model.UserID > 0 ? "Edit " : "Add ")User</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item active">User</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col">
+
+            <div class="card">
+                <div class="card-body">
+                    <form class="row g-3 py-3" asp-action="SaveUser" asp-controller="User">
+                        @Html.HiddenFor(model => model.UserID)
+
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">User Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="UserName">
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="inputNanme4" asp-for="Email">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Password <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="inputNanme4" asp-for="Password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Mobile No. <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="inputNanme4" asp-for="MobileNo">
+                            <span asp-validation-for="MobileNo" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Address <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="Address">
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Is Active <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="IsActive">
+                            <span asp-validation-for="IsActive" class="text-danger"></span>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,10 @@
+﻿@Coffee_Shop_Management_System_HostAddress = https://localhost:7074
+
+POST {{Coffee_Shop_Management_System_HostAddress}}/user/saveuser/{id}
+Content-Type: application/json
+
+{
+  //UserModel
+}
+
+###

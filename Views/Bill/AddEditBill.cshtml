@@ -1,0 +1,75 @@
+﻿@model Coffee_Shop_Management_System.Models.BillModel
+<div class="pagetitle">
+    <h1>@(Model.BillID > 0 ? "Edit " : "Add ")Bill</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item active">BIlls</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <form class="row g-3 pb-3" asp-action="SaveBill">
+                        @Html.HiddenFor(x => x.BillID)
+                        <div asp-validation-summaray="ModelOnly"></div>
+
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Bill Number <span class="text-danger">*</span> </label>
+                            <input type="text" class="form-control" id="inputNanme4" asp-for="BillNumber">
+                            <span asp-validation-for="BillNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Bill Date <span class="text-danger">*</span> </label>
+                            <input type="date" class="form-control" placeholder="dd-mm-yyyy" asp-for="BillDate">
+                            <span asp-validation-for="BillDate" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Total Amount <span class="text-danger">*</span> </label>
+                            <input type="number" class="form-control" id="inputNanme4" asp-for="TotalAmount">
+                            <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Discount</label>
+                            <input type="number" class="form-control" id="inputNanme4" asp-for="Discount">
+                            <span asp-validation-for="Discount" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Net Amount <span class="text-danger">*</span> </label>
+                            <input type="number" class="form-control" id="inputNanme4" asp-for="NetAmount">
+                            <span asp-validation-for="NetAmount" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Order Number <span class="text-danger">*</span> </label>
+                            <select id="inputState" class="form-select" asp-for="OrderID" aria-label="Default select example" asp-items="@ViewBag.OrderList">
+                                <option value="">Select an option</option>
+                            </select>
+                            <span asp-validation-for="UserID" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">User Name <span class="text-danger">*</span> </label>
+                            <select id="inputState" class="form-select" asp-for="UserID" aria-label="Default select example" asp-items="@ViewBag.UserList">
+                                <option value="">Select an option</option>
+                            </select>
+                            <span asp-validation-for="UserID" class="text-danger"></span>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
